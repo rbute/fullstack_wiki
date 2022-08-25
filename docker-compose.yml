@@ -1,0 +1,53 @@
+services:
+  mysql:
+    image: mysql:8.0.29
+    environment:
+      - MYSQL_ROOT_PASSWORD=Passw0rd!1
+      - MYSQL_DATABASE=app_db
+    restart: always
+    ports:
+      - 3306:3306
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - type: bind
+        source: ./data/mysql-data
+        target: /var/lib/mysql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8000:8080
+
+  postgres:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=keycloak
+#    volumes:
+#      - type: bind
+#        target: /var/lib/postgresql/data
+#        source: ./data/postgres-data
+    ports:
+      - 5432:5432
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:19.0.1
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - DB_ADDR=postgres
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_DATABASE=keycloak
+      - DB_SCHEMA=keycloak
+    ports:
+      - 8001:8080
+    restart: always
+    deploy:
+      restart_policy:
+        condition: on-failure
+    command:
+      - start-dev

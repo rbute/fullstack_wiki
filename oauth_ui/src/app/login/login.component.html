@@ -1,0 +1,17 @@
+<div>
+    <mat-card class="ng-animate-shim">
+        <mat-card-header>
+            <mat-card-title>Some Title</mat-card-title>
+        </mat-card-header>  
+        <mat-form-field>
+        <mat-select [(value)]="selValue" onselect="selected(value)">    
+            <mat-option value="one">First option</mat-option>
+            <mat-option value="two">Second option</mat-option>
+        </mat-select>
+        </mat-form-field>
+        <mat-card-actions>
+            <button mat-button (click)="doLogin($event);">Login</button>
+            <button mat-button>Need Help</button>
+        </mat-card-actions>
+        </mat-card>
+</div>
